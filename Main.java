@@ -1,20 +1,16 @@
 package TPE;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.io.InputStream;
 
 
 public class Main {
 
 	public static void main(String[] args) {
-		List<Maquina> maquinas = new ArrayList<>();
+		ArrayList<Maquina> maquinas = new ArrayList<>();
 		int piezasTotales = 0;
 		InputStream is = Main.class.getResourceAsStream("text");
-		//URL url = Main.class.getResource("text");
-		//System.out.println("URL del archivo: " + url);
 		if (is == null) {
 			System.out.println("No se encontró el archivo.");
 			return;
@@ -45,5 +41,14 @@ public class Main {
 		for (Maquina m : maquinas) {
 			System.out.println("Máquina: " + m.getNombre() + " - Cantidad de piezas: " + m.getCantPiezas());
 		}
+		
+		// --BACKTRACKING--
+		Backtracking bc =new Backtracking(maquinas);
+		Solucion s = bc.backtracking(maquinas, piezasTotales);
+		System.out.print("Secuencia de Maquinas= ");
+		s.getSecuenciaDeMaquinas();
+		System.out.println("Cantidad de Piezas producidas= " + s.getCantPiezas());
+		System.out.println("Cantidad de Puestas en funcionamiento = " + s.getPuestaFuncionamiento());
+		System.out.println("Cantidad de Estados generados = " + s.getEstadosGenerados());
 	}
 }
