@@ -8,7 +8,11 @@ public class Solucion {
 	private int cantPiezas;
 	private int puestaFuncionamiento;         //cantidad puestas en funcionamiento
 	private int estadosGenerados;
+	private int totalCandidatos;
 
+	public Solucion() {
+		this.maquinas = new ArrayList<>();
+	}
 	public Solucion(int estadosGenerados) {
 		this.maquinas = new ArrayList<>();
 		this.cantPiezas = 0;
@@ -22,6 +26,14 @@ public class Solucion {
 		this.puestaFuncionamiento = maquinas.size();
 	}
 
+	public Solucion(ArrayList<Maquina> m, int cantPiezas, int estadosGenerados) {
+		this.maquinas = new ArrayList<>();
+		this.maquinas.addAll(m);
+		this.cantPiezas = cantPiezas;
+		this.puestaFuncionamiento = maquinas.size();
+		this.estadosGenerados = estadosGenerados;
+	}
+	
 	public ArrayList<Maquina> getMaquinas(){
 		return new ArrayList<>(maquinas);
 	}
@@ -48,6 +60,24 @@ public class Solucion {
 			System.out.print("("+maquina.getNombre()+ "-" + maquina.getCantPiezas() + ") ");
 		}
 		System.out.println();
+	}
+	
+	//-----para greedy---
+	
+	public void agregarMaquina(Maquina m) {
+		maquinas.add(m);
+		this.cantPiezas += m.getCantPiezas();
+	}
+	
+	public int getTotalCandidatos() {
+		return this.totalCandidatos;
+	}
+	public void setTotalCandidatos(int candidatos) {
+		this.totalCandidatos = candidatos;
+	}
+	
+	public void setPuestasEnFuncionamiento() {
+		this.puestaFuncionamiento = maquinas.size();
 	}
 	
 }

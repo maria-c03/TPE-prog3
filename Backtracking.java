@@ -4,17 +4,13 @@ import java.util.ArrayList;
 
 
 public class Backtracking {
-	//private List<Maquina> maquinas;         //secuencia de maquinas
-	//private int piezasTotales;              //cantidad de piezas totales a producir     las abstraigo para usar el backtracking como algoritmo
 	private Solucion mejorSolucion;           //secuencia de maquinas puestas en funcionamiento
-	private int piezasProducidas;             //cantidad piezas producidas por una maquina
-	private int estadosGenerados;             //cantidad de estados generados 
-	//CONSULTAR QUE ESTADO, EL DE LA BUSQUEDA COMPLETA (72) O LOS QUE TARDA EN ENCONTRAR LA MEJOR SOLUCION (4)
+	private int estadosGenerados;             //cantidad de estados generados en la su totalidad
 	private int maqUsadas;
 
 	public Backtracking(ArrayList<Maquina> maquinas) { 
+		//no es necesario ordenarlas pero en este caso resulta beneficioso para allar la solucion 
 		Collections.sort(maquinas, new ComparatorCantPiezasDesc());  //las ordeno de forma descendente 
-		this.piezasProducidas = 0;
 		this.estadosGenerados = 0;
 		this.mejorSolucion = null;
 		this.maqUsadas = Integer.MAX_VALUE;
@@ -35,19 +31,14 @@ public class Backtracking {
 		mejorSolucion.setEstadosGenerados(estadosGenerados);
 		return this.mejorSolucion;
 	}
-	
+
 	private void backtracking(Estado e, ArrayList<Maquina> maquinas, int piezasTotales, int indice) {
 		this.estadosGenerados++; //contador de estados generados
-		//if(esEstadoFinal(e, maquinas)) {// TIENE REALMENTE ESTADO FINAL? Consultar!!
-		if(esSolucion(e, piezasTotales)) {
-			//System.out.println("maquinas usadas"+ maqUsadas);
-			int minMaquinas = e.getMaquinas().size();
-			if(minMaquinas<maqUsadas) { //si dejo <= piso con la solucion [M3,M3,M3]
+		if(esEstadoFinal(e, piezasTotales)) {
+			if(esSolucion(e, maquinas)) {
 				guardarSolucion(e.getMaquinas(),e.getCantPiezas());
-				maqUsadas=minMaquinas;
 			}
 		}
-		//}
 		else {
 			//recorrer la lista de maquinas
 			for (int i=indice;i<maquinas.size();i++) { //evita permutaciones redundantes (ej:[M1,M2] y [M2,M1])
@@ -70,20 +61,26 @@ public class Backtracking {
 	public boolean podar(int nuevaCantPiezasTotales, int piezasTotales) {
 		return nuevaCantPiezasTotales>piezasTotales;
 	}
-	
+
 	private void guardarSolucion(ArrayList<Maquina> maquinas, int piezasTotales) {
 		mejorSolucion = new Solucion(maquinas,piezasTotales);
 	}
+	/*
+	private void guardarSolucion(ArrayList<Maquina> maquinas, int piezasTotales, int estadosGenerados) {
+		mejorSolucion = new Solucion(maquinas,piezasTotales, estadosGenerados);
+	}*/
 
-	public boolean esEstadoFinal(Estado e, ArrayList<Maquina> maquinas) {
-		if(maquinas.isEmpty()) {
-			return false;
-		}
-		return true;
+	public boolean esEstadoFinal(Estado e, int piezasTotales) {//SI COMPLETE LAS PIEZAS ES ESTADO FINAL
+		if(e.getCantPiezas() == piezasTotales) {
+			return true;
+		}			
+		return false;
 	}
 
-	public boolean esSolucion(Estado e, int piezasTotales) {
-		if(e.getCantPiezas() == piezasTotales) {
+	public boolean esSolucion(Estado e, ArrayList<Maquina> maquinas) { //es solucion si es la mas corta...quiero guardar la mejor
+		int minMaquinas = e.getMaquinas().size();
+		if(minMaquinas<maqUsadas) { //si dejo <= piso con la solucion [M3,M3,M3]
+			maqUsadas=minMaquinas;
 			return true;
 		}
 		return false;

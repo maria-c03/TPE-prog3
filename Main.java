@@ -44,11 +44,23 @@ public class Main {
 		
 		// --BACKTRACKING--
 		Backtracking bc =new Backtracking(maquinas);
-		Solucion s = bc.backtracking(maquinas, piezasTotales);
+		Solucion solBack = bc.backtracking(maquinas, piezasTotales);
+		System.out.println( "Solucion Backtracking ");
 		System.out.print("Secuencia de Maquinas= ");
-		s.getSecuenciaDeMaquinas();
-		System.out.println("Cantidad de Piezas producidas= " + s.getCantPiezas());
-		System.out.println("Cantidad de Puestas en funcionamiento = " + s.getPuestaFuncionamiento());
-		System.out.println("Cantidad de Estados generados = " + s.getEstadosGenerados());
+		solBack.getSecuenciaDeMaquinas();
+		System.out.println("Cantidad de Piezas producidas= " + solBack.getCantPiezas());
+		System.out.println("Cantidad de Puestas en funcionamiento = " + solBack.getPuestaFuncionamiento());
+		System.out.println("Cantidad de Estados generados = " + solBack.getEstadosGenerados());
+	
+		// --GREEDY-- 
+		Greedy g = new Greedy(piezasTotales);
+		Solucion solGreedy = g.greedy(maquinas);
+		System.out.println( "Solucion Greedy ");
+		solGreedy.getSecuenciaDeMaquinas();
+		System.out.println("Cantidad de Piezas producidas= " + solGreedy.getCantPiezas());
+		System.out.println("Cantidad de Puestas en funcionamiento = " + solGreedy.getPuestaFuncionamiento());
+		System.out.println("Cantidad de Candidatos = " + solGreedy.getTotalCandidatos());
+	
+	
 	}
 }
