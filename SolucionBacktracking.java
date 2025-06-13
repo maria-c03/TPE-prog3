@@ -3,35 +3,27 @@ package TPE;
 import java.util.ArrayList;
 
 
-public class Solucion {
+public class SolucionBacktracking {
 	private ArrayList<Maquina> maquinas;
 	private int cantPiezas;
 	private int puestaFuncionamiento;         //cantidad puestas en funcionamiento
 	private int estadosGenerados;
-	private int totalCandidatos;
 
-	public Solucion() {
+
+	public SolucionBacktracking() {
 		this.maquinas = new ArrayList<>();
 	}
-	public Solucion(int estadosGenerados) {
+	public SolucionBacktracking(int estadosGenerados) {
 		this.maquinas = new ArrayList<>();
 		this.cantPiezas = 0;
 		this.puestaFuncionamiento = 0;
 		this.estadosGenerados = estadosGenerados;
 	}
-	public Solucion(ArrayList<Maquina> m, int cantPiezas) {
+	public SolucionBacktracking(ArrayList<Maquina> m, int cantPiezas) {
 		this.maquinas = new ArrayList<>();
 		this.maquinas.addAll(m);
 		this.cantPiezas = cantPiezas;
 		this.puestaFuncionamiento = maquinas.size();
-	}
-
-	public Solucion(ArrayList<Maquina> m, int cantPiezas, int estadosGenerados) {
-		this.maquinas = new ArrayList<>();
-		this.maquinas.addAll(m);
-		this.cantPiezas = cantPiezas;
-		this.puestaFuncionamiento = maquinas.size();
-		this.estadosGenerados = estadosGenerados;
 	}
 	
 	public ArrayList<Maquina> getMaquinas(){
@@ -60,24 +52,6 @@ public class Solucion {
 			System.out.print("("+maquina.getNombre()+ "-" + maquina.getCantPiezas() + ") ");
 		}
 		System.out.println();
-	}
-	
-	//-----para greedy---
-	
-	public void agregarMaquina(Maquina m) {
-		maquinas.add(m);
-		this.cantPiezas += m.getCantPiezas();
-	}
-	
-	public int getTotalCandidatos() {
-		return this.totalCandidatos;
-	}
-	public void setTotalCandidatos(int candidatos) {
-		this.totalCandidatos = candidatos;
-	}
-	
-	public void setPuestasEnFuncionamiento() {
-		this.puestaFuncionamiento = maquinas.size();
 	}
 	
 }

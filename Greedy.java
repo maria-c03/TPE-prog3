@@ -15,9 +15,9 @@ public class Greedy {
 	}
 	
 	
-	public Solucion greedy(ArrayList<Maquina> maquinasCandidatas) {
+	public SolucionGreedy greedy(ArrayList<Maquina> maquinasCandidatas) {
 		Collections.sort(maquinasCandidatas, new ComparatorCantPiezasDesc());
-		Solucion solucion = new Solucion();
+		SolucionGreedy solucion = new SolucionGreedy();
 		solucion.setTotalCandidatos(maquinasCandidatas.size());
 		while(!maquinasCandidatas.isEmpty() && !esSolucion(solucion)) {
 			Maquina mejorCandidato = maquinasCandidatas.get(0);//elijo la mejor maquina candidata
@@ -38,7 +38,7 @@ public class Greedy {
 		}
 	}
 	
-	public boolean esSolucion(Solucion solucion) {
+	public boolean esSolucion(SolucionGreedy solucion) {
 		if(solucion.getCantPiezas() == cantPiezas) {
 			return true;			
 		}
@@ -46,7 +46,7 @@ public class Greedy {
 	}
 	
 	
-	public boolean factible(Solucion solucion, int pieza) {
+	public boolean factible(SolucionGreedy solucion, int pieza) {
 		return solucion.getCantPiezas() + pieza <= cantPiezas;
 	}
 	
