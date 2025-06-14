@@ -18,7 +18,7 @@ public class Estado {
 	
 	public void addMaquina(Maquina m) {
 		maquinas.add(m);
-		cantPiezas += m.getCantPiezas(); //actualizo la cantidad de piezas del estado
+		cantPiezas += m.getCantPiezas(); //cuando agrego la maquina actualizo la cantidad de piezas del estado
 	}
 	public int getTam() {
 		return maquinas.size();

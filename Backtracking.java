@@ -2,11 +2,10 @@ package TPE;
 
 import java.util.ArrayList;
 
-
 public class Backtracking {
 	private SolucionBacktracking mejorSolucion;           //secuencia de maquinas puestas en funcionamiento
-	private int estadosGenerados;             //cantidad de estados generados en la su totalidad
-	private int maqUsadas;
+	private int estadosGenerados;                         //cantidad de estados generados en la su totalidad
+	private int maqUsadas;                                //cantidad de maquinas usadas inicia seteada en el valor mas alto de un Integer
 
 	public Backtracking(ArrayList<Maquina> maquinas) { 
 		this.estadosGenerados = 0;
@@ -14,12 +13,19 @@ public class Backtracking {
 		this.maqUsadas = Integer.MAX_VALUE;
 	}
 
-	/* Planteo Backtracking
-	 * cuando llego a un estado final? ...si ya recorri todas las combinaciones de maquinas 
-	 * es solucion? ...si la suma de las piezasProducidas es igual al piezasTotales
+	
+	/** Planteo Backtracking
+	 *  -Arbol de exploracion...arrancamos con un arbol vacio, luego se evalua si M1 es solucion, de serlo la guarda, avanza y evalua si M1M1 son solucion
+	 * de no serlo evalua la siguiente combinacion M1M2, de no serlo evalua la proxima combinacion y asi con el resto de las maquinas. Una vez encontrada
+	 * una solucion la agrega al arreglo como mejorSolcion hasta ese momento.
 	 * 
+	 *  -ESTADO FINAL =  cuando produjo la totalidad de piezas requeridas, en este caso 12
+	 *  
+	 *  -ES SOLUCION = como quiero solo guardar la mejor solucion esta sera mi estado final
 	 * 
+	 *  -PODA = cuando la suma de las piezas de la maquina y las del estado superen la cantidad de piezas totales a fabricar se realizara la poda
 	 * */
+	
 	public SolucionBacktracking backtracking(ArrayList<Maquina> maquinas, int piezasTotales){
 		Estado actual = new Estado();
 		backtracking(actual, maquinas, piezasTotales,0);
@@ -31,25 +37,19 @@ public class Backtracking {
 	}
 
 	private void backtracking(Estado e, ArrayList<Maquina> maquinas, int piezasTotales, int indice) {
-		this.estadosGenerados++; //contador de estados generados
+		this.estadosGenerados++;  //contador de estados generados
 		if(esEstadoFinal(e, piezasTotales)) {
 			if(esSolucion(e, maquinas)) {
 				guardarSolucion(e.getMaquinas(),e.getCantPiezas());
 			}
 		}
 		else {
-			//recorrer la lista de maquinas
-			for (int i=indice;i<maquinas.size();i++) { //evita permutaciones redundantes (ej:[M1,M2] y [M2,M1])
+			for (int i=indice;i<maquinas.size();i++) { // con el indice evitamos permutaciones redundantes (ej:[M1,M2] y [M2,M1])
 				Maquina maquina = maquinas.get(i);
-				//sumo las piezas de la maquina con las del estadoActual
 				int nuevaCantPiezasTotales = maquina.getCantPiezas() + e.getCantPiezas(); 
-				//si las piezas actuales superara al total de piezas a producir las podo
 				if(!podar(nuevaCantPiezasTotales,piezasTotales)) { 
-					//agregar a la solucion estado
 					e.addMaquina(maquina);
-					//recursion
 					backtracking(e, maquinas, piezasTotales, i);
-					//deshacer cambios
 					e.remove(maquina);
 				}
 			}
@@ -65,16 +65,16 @@ public class Backtracking {
 	}
 	
 
-	public boolean esEstadoFinal(Estado e, int piezasTotales) {//SI COMPLETE LAS PIEZAS ES ESTADO FINAL
+	public boolean esEstadoFinal(Estado e, int piezasTotales) {
 		if(e.getCantPiezas() == piezasTotales) {
 			return true;
 		}			
 		return false;
 	}
 
-	public boolean esSolucion(Estado e, ArrayList<Maquina> maquinas) { //es solucion si es la mas corta...quiero guardar la mejor
+	public boolean esSolucion(Estado e, ArrayList<Maquina> maquinas) { 
 		int minMaquinas = e.getMaquinas().size();
-		if(minMaquinas<maqUsadas) { //si dejo <= piso con la solucion [M3,M3,M3]
+		if(minMaquinas<maqUsadas) { // si dejo <= piso la mejor solucion actual con la siguiente mejor solucion en este caso [M3,M3,M3]
 			maqUsadas=minMaquinas;
 			return true;
 		}

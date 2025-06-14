@@ -8,6 +8,7 @@ import java.io.InputStream;
 public class Main {
 
 	public static void main(String[] args) {
+		//para poder leer el archivo text
 		ArrayList<Maquina> maquinas = new ArrayList<>();
 		int piezasTotales = 0;
 		InputStream is = Main.class.getResourceAsStream("text");
@@ -36,11 +37,15 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		
+		//se imprime en pantalla el total de piezas y las maquinas con sus respectivas piezas
 		System.out.println("Piezas totales: " + piezasTotales);
 		for (Maquina m : maquinas) {
 			System.out.println("Máquina: " + m.getNombre() + " - Cantidad de piezas: " + m.getCantPiezas());
 		}
+		
+		// --RESULTADOS--
 		
 		// --BACKTRACKING--
 		Backtracking bc =new Backtracking(maquinas);
@@ -55,6 +60,7 @@ public class Main {
 		System.out.println("Cantidad de Puestas en funcionamiento = " + solBack.getPuestaFuncionamiento());
 		System.out.println("Cantidad de Estados generados = " + solBack.getEstadosGenerados());
 	
+		
 		// --GREEDY-- 
 		Greedy g = new Greedy(piezasTotales);
 		SolucionGreedy solGreedy = g.greedy(maquinas);
@@ -67,7 +73,6 @@ public class Main {
 			System.out.println("Cantidad de Puestas en funcionamiento = " + solGreedy.getPuestaFuncionamiento());
 			System.out.println("Cantidad de Candidatos = " + solGreedy.getTotalCandidatos());	
 		}
-	
 	
 	}
 }

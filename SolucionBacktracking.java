@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class SolucionBacktracking {
 	private ArrayList<Maquina> maquinas;
 	private int cantPiezas;
-	private int puestaFuncionamiento;         //cantidad puestas en funcionamiento
+	private int puestaFuncionamiento;
 	private int estadosGenerados;
 
 

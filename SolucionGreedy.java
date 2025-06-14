@@ -2,11 +2,12 @@ package TPE;
 
 import java.util.ArrayList;
 
+
 public class SolucionGreedy {
 
 	private ArrayList<Maquina> maquinas;
 	private int cantPiezas;
-	private int puestaFuncionamiento;         //cantidad puestas en funcionamiento
+	private int puestaFuncionamiento;
 	private int totalCandidatos;
 
 	public SolucionGreedy() {

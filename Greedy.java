@@ -3,11 +3,9 @@ package TPE;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Greedy {
 	private int cantPiezas;
-	//candidatos las maquinas que suman 12 piezas
-	//criterio Greedy : elegir, dentro del conjunto de maquinas, la de mayor cantidad de piezas 
-	//Es solucion si la suma de las piezas es = 12
 	
 	
 	public Greedy(int cantPiezas) {
@@ -15,16 +13,28 @@ public class Greedy {
 	}
 	
 	
+	/**
+	* -CANDIDATOS = Al estar ordenados por la cantidad de piezas de forma descendente, los candidatos quedan ordenados por este criterio
+	*
+	* -CRITERIO GREEDY = elejimos, dentro del conjunto de maquinas, la de mayor cantidad de piezas 
+	*
+	* -Estrategia de seleccion  = Es un posible candidato si cumple que sus piezas sumadas a la solucion es menor igual a la cantidad total de piezas
+	* 
+	* -Como puede suceder que no haya candidatos que cumplan los requisitos, de no encontrarse una solucion se devolvera null.
+	*Este sera controlado en el main donde si la solcion es null o el arreglo de maquinasCandidatas esta vacio mostramos por pantalla "No hay solucion"
+	*/
+	
+	
 	public SolucionGreedy greedy(ArrayList<Maquina> maquinasCandidatas) {
 		Collections.sort(maquinasCandidatas, new ComparatorCantPiezasDesc());
 		SolucionGreedy solucion = new SolucionGreedy();
 		solucion.setTotalCandidatos(maquinasCandidatas.size());
 		while(!maquinasCandidatas.isEmpty() && !esSolucion(solucion)) {
-			Maquina mejorCandidato = maquinasCandidatas.get(0);//elijo la mejor maquina candidata
+			Maquina mejorCandidato = maquinasCandidatas.get(0);//Al estar ordenado la primer maquina siempre es el mejor candidato
 			if(mejorCandidato !=null) {
-				maquinasCandidatas.remove(mejorCandidato); // la saco de los candidatos
+				maquinasCandidatas.remove(mejorCandidato); 
 				if(factible(solucion, mejorCandidato.getCantPiezas())) {
-					solucion.agregarMaquina(mejorCandidato); // la agrego a la solucion 					
+					solucion.agregarMaquina(mejorCandidato); // si el candidato cumple el requerimiento lo agrego a mi solucion					
 				}
 			}
 		}
@@ -34,7 +44,7 @@ public class Greedy {
 			
 		}
 		else {
-			return null;		//CONSULTAR si no encuentro solucion retorno una solucion vacia o null??	en el main controlaar e imprimir no hay solucion
+			return null;
 		}
 	}
 	
@@ -45,10 +55,9 @@ public class Greedy {
 		return false;
 	}
 	
-	
+	//un candidato cumple si sus piezas sumadas a la solucion es menor igual a la cantidad total de piezas
 	public boolean factible(SolucionGreedy solucion, int pieza) {
 		return solucion.getCantPiezas() + pieza <= cantPiezas;
 	}
-	
 	
 }
