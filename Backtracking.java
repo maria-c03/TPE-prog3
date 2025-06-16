@@ -13,7 +13,6 @@ public class Backtracking {
 		this.maqUsadas = Integer.MAX_VALUE;
 	}
 
-
 	/** Planteo Backtracking
 	 * -¿Como se genera el arbol de exploracion? 
 	 * Arrancamos con un arbol vacio donde en cada nivel del arbol el algoritmo agrega una maquina desde el indice i, recorriendo de esta forma en profundidad.

@@ -12,7 +12,6 @@ public class Greedy {
 		this.cantPiezas = cantPiezas;
 	}
 
-
 	/**
 	 * -¿Cuales son los candidatos?
 	 * CANDIDATOS = las maquinas ordenadas por la cantidad de piezas de forma descendente.
@@ -29,7 +28,6 @@ public class Greedy {
 	 * 
 	 * -Complejidad temporal= O(k^2), hacemos una iteracion por cada elemento de la lista O(k) y con cada iteracion hacemos O(k) por el remove()
 	 */
-
 
 	public SolucionGreedy greedy(ArrayList<Maquina> maquinasCandidatas) {
 		Collections.sort(maquinasCandidatas, new ComparatorCantPiezasDesc());
