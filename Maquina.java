@@ -4,7 +4,7 @@ public class Maquina {
 	private String nombre;
 	private int cantPiezas;
 	
-	Maquina(String n, int p){
+	public Maquina(String n, int p){
 		nombre = n;
 		cantPiezas =p;
 	}
