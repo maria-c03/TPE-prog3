@@ -43,8 +43,8 @@ public class SolucionGreedy {
 		return this.totalCandidatos;
 	}
 	
-	public void setTotalCandidatos(int candidatos) {
-		this.totalCandidatos = candidatos;
+	public void setCandidatosConsiderados() {
+		this.totalCandidatos ++;
 	}
 
 	public void setPuestasEnFuncionamiento() {

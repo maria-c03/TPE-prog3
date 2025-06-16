@@ -13,22 +13,42 @@ public class Backtracking {
 		this.maqUsadas = Integer.MAX_VALUE;
 	}
 
-	
+
 	/** Planteo Backtracking
-	 *  -Arbol de exploracion...arrancamos con un arbol vacio, luego se evalua si M1 es solucion, de serlo la guarda, avanza y evalua si M1M1 son solucion
-	 * de no serlo evalua la siguiente combinacion M1M2, de no serlo evalua la proxima combinacion y asi con el resto de las maquinas. Una vez encontrada
-	 * una solucion la agrega al arreglo como mejorSolcion hasta ese momento.
+	 * -¿Como se genera el arbol de exploracion? 
+	 * Arrancamos con un arbol vacio donde en cada nivel del arbol el algoritmo agrega una maquina desde el indice i, recorriendo de esta forma en profundidad.
+	 * Con el indice lo que se logra es por un lado probar combinaciones con repeticion y por otro lado evitar los casos de permutaciones como [M1,M2] Y [M2,M1] ya que la solucion de estos es la misma.
+	 * Luego, con la poda se descartan los casos en el que una rama, por ejemplo [M1,M1], supere la cantidad de piezas totales. 
+	 * ejemplo de como se veria el arbol de exploracion 
 	 * 
-	 *  -ESTADO FINAL =  cuando produjo la totalidad de piezas requeridas, en este caso 12
+	 * nivel 0                                                       []
+	 * nivel 1                  [M1]                     [M2]                 [M3]               [M4]
+	 * nivel 2      [M1,M1] [M1,M2] [M1,M3] [M1,M4] ....
+	 * :
+	 * nivel n     hasta alcanzar piezasTotales = 12
+	 * 
+	 * asi por ejemplo un recorrido de exploracion seria i=o [M1] la suma de las piezas no supera las piezas totales 
+	 * evalua [M1,M1] pero como supera las piezas totales lo poda y avanza i=1
+	 * evalua [M1,M2] la suma no supera las piezas totales, evalua [M1,M2,M2] supera el total de piezas, poda y avanza i=2
+	 * evalua [M1,M2,M3] supera el total de piezas, poda y avanza i=3
+	 * evalua [M1,M2,M4] no supera el total de piezas, evalua [M1,M2,M4,M4] primera solucion allada 
+	 * 
+	 * -Complejidad temporal= en caso de que la primer maquina produzca las 12 piezas seria O(1), 
+	 *  en el peor caso O(k^n) donde k = cantidad de maquinas y n = profundidad del arbol
+	 * 
+	 * -¿Cuales son los estados finales y solucion?
+	 * ESTADO FINAL =  cuando produjo la totalidad de piezas requeridas, en este caso 12
+	 * ES SOLUCION = quiero solo guardar la mejor solucion, que en este caso seria la menor cantidad de maquinas puestas en funcionamieto.
+	 * 	
+	 * -¿Posible poda?
+	 * PODA = cuando la suma de las piezas de la maquina y las del estado superen la cantidad de piezas totales se realizara la poda
 	 *  
-	 *  -ES SOLUCION = como quiero solo guardar la mejor solucion esta sera mi estado final
-	 * 
-	 *  -PODA = cuando la suma de las piezas de la maquina y las del estado superen la cantidad de piezas totales a fabricar se realizara la poda
 	 * */
-	
+
 	public SolucionBacktracking backtracking(ArrayList<Maquina> maquinas, int piezasTotales){
 		Estado actual = new Estado();
-		backtracking(actual, maquinas, piezasTotales,0);
+		ArrayList<Maquina> maqValidadas= addMaquinasValidas(maquinas);
+		backtracking(actual, maqValidadas, piezasTotales,0);
 		if(mejorSolucion == null) { //si no encontro una solucion devuelvo un Solucion con valores por defecto
 			return new SolucionBacktracking(estadosGenerados); // le paso los estados porque puedo no tener pero si haber recorrido
 		}
@@ -63,7 +83,7 @@ public class Backtracking {
 	private void guardarSolucion(ArrayList<Maquina> maquinas, int piezasTotales) {
 		mejorSolucion = new SolucionBacktracking(maquinas,piezasTotales);
 	}
-	
+
 
 	public boolean esEstadoFinal(Estado e, int piezasTotales) {
 		if(e.getCantPiezas() == piezasTotales) {
@@ -79,6 +99,18 @@ public class Backtracking {
 			return true;
 		}
 		return false;
+	}
+
+	//para evitar un loop infinito generado por una maquina que no produce piezas, es decir cantPiezas = 0,
+	//valido las maquinas previamente de esta forma trabajamos con maquinas validas
+	public ArrayList<Maquina> addMaquinasValidas(ArrayList<Maquina> maqAValidar){
+		ArrayList<Maquina> maquinas = new ArrayList<>();
+		for(int i=0; i<maqAValidar.size();i++) {
+			if(maqAValidar.get(i).getCantPiezas() > 0) {
+				maquinas.add(maqAValidar.get(i));
+			}
+		}
+		return maquinas;
 	}
 
 }
